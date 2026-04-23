@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    // Hilt requiere el plugin de Google para generar código
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -41,4 +43,28 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    annotationProcessor(libs.hilt.compiler)
+
+    // Room
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+
+    // Para el ejercicio de cifrado de BBDD (SQLCipher)
+    implementation(libs.android.database.sqlcipher)
+    implementation(libs.sqlite)
+
+    // Retrofit y Gson (para convertir JSON a POJOs de Java)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
+    // Glide
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
+
+    // SharedPreferences Cifradas
+    implementation(libs.security.crypto)
 }
