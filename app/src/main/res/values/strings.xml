@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">ConocimientosBasicos-Andorid-Studio</string>
+    <string name="app_name">Listado Productos</string>
+
+    <string name="product_detail">Detalles del producto</string>
 </resources>
