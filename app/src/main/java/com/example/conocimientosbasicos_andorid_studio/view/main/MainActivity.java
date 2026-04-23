@@ -2,6 +2,7 @@ package com.example.conocimientosbasicos_andorid_studio.view.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -60,11 +61,18 @@ public class MainActivity extends AppCompatActivity implements MainView{
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if(result.getResultCode() == MainActivity.RESULT_OK) {
-                        presenter.onMessageReceived(result.getData().getStringExtra("toast_msg"));
+                        presenter.showToast(result.getData().getStringExtra("toast_msg"));
                     }
                 });
 
         router.setLauncher(launcher);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("has salido","has salido");
+        presenter.showToast("Has salido de la activity");
     }
 
     @Override

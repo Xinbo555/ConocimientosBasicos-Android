@@ -40,12 +40,11 @@ public class MainPresenter {
         });
     }
 
-    public void onMessageReceived(String message) {
-        mainView.showToast(message);
-    }
-
     public void onProductClicked(Product product) {
         router.navigateToDetail(product.getId());
     }
 
+    public void showToast(String message) {
+        mainView.showToast(message);
+    }
 }
