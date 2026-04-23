@@ -8,4 +8,5 @@ public interface MainView {
     void showProducts(List<Product> products);
     void setRefreshing(boolean isRefreshing);
     void cleanProducts();
+    void showToast(String message);
 }

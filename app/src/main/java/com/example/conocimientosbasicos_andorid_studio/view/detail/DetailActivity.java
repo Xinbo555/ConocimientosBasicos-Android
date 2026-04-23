@@ -72,7 +72,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView{
 
     @Override
     public boolean onSupportNavigateUp() {
-        presenter.onBackClicked();
+        presenter.onBackClicked(binding.etToastAlSalir.getText().toString());
         return super.onSupportNavigateUp();
     }
 }

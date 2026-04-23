@@ -1,7 +1,6 @@
 package com.example.conocimientosbasicos_andorid_studio.view.main;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.example.conocimientosbasicos_andorid_studio.domain.entity.Product;
 import com.example.conocimientosbasicos_andorid_studio.domain.usecase.GetProductListUseCase;
@@ -41,7 +40,11 @@ public class MainPresenter {
         });
     }
 
-    public void navigateFromMainActivityToDetailActivity(Product product) {
+    public void onMessageReceived(String message) {
+        mainView.showToast(message);
+    }
+
+    public void onProductClicked(Product product) {
         router.navigateToDetail(product.getId());
     }
 

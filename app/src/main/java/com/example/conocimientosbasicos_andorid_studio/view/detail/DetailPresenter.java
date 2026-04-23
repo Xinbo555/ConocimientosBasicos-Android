@@ -27,7 +27,7 @@ public class DetailPresenter {
         this.detailView = null;
     }
 
-    public void onBackClicked() {
-        router.goBack();
+    public void onBackClicked(String message) {
+        router.goBack(message);
     }
 }

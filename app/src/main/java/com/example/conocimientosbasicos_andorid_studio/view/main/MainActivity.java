@@ -1,7 +1,11 @@
 package com.example.conocimientosbasicos_andorid_studio.view.main;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -26,11 +30,14 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
     @Inject
     MainPresenter presenter;
-
     @Inject
     ProductDiffCallback callback;
     @Inject
     ImageLoader imageLoader;
+    @Inject
+    MainRouter router;
+
+    private ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +45,26 @@ public class MainActivity extends AppCompatActivity implements MainView{
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        initLauncher();
+
         attachPresenter();
         initAdapter();
         initRecyclerView();
         initSwipeRefreshLayout();
 
         initUi();
+    }
+
+    private void initLauncher() {
+        launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == MainActivity.RESULT_OK) {
+                        presenter.onMessageReceived(result.getData().getStringExtra("toast_msg"));
+                    }
+                });
+
+        router.setLauncher(launcher);
     }
 
     @Override
@@ -66,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
     }
 
     private void initAdapter() {
-        adapter = new ProductAdapter(callback,imageLoader,presenter::navigateFromMainActivityToDetailActivity);
+        adapter = new ProductAdapter(callback,imageLoader,presenter::onProductClicked);
     }
 
     private void initRecyclerView() {
@@ -87,5 +108,10 @@ public class MainActivity extends AppCompatActivity implements MainView{
     @Override
     public void cleanProducts() {
         adapter.submitList(Collections.emptyList());
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
