@@ -10,7 +10,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.conocimientosbasicos_andorid_studio.R;
 import com.example.conocimientosbasicos_andorid_studio.databinding.ActivityMainBinding;
+import com.example.conocimientosbasicos_andorid_studio.databinding.FragmentMainBinding;
 import com.example.conocimientosbasicos_andorid_studio.view.main.adapter.ListItem;
 import com.example.conocimientosbasicos_andorid_studio.view.main.adapter.ProductAdapter;
 import com.example.conocimientosbasicos_andorid_studio.view.main.adapter.ProductDiffCallback;
@@ -24,21 +26,9 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity implements MainView{
+public class MainActivity extends AppCompatActivity{
 
-    private ActivityMainBinding binding;
-    private ProductAdapter adapter;
-
-    @Inject
-    MainPresenter presenter;
-    @Inject
-    ProductDiffCallback callback;
-    @Inject
-    ImageLoader imageLoader;
-    @Inject
-    MainRouter router;
-
-    private ActivityResultLauncher<Intent> launcher;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,80 +36,11 @@ public class MainActivity extends AppCompatActivity implements MainView{
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        initLauncher();
-
-        attachPresenter();
-        initAdapter();
-        initRecyclerView();
-        initSwipeRefreshLayout();
-
-        initUi();
-    }
-
-    private void initLauncher() {
-        launcher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if(result.getResultCode() == MainActivity.RESULT_OK) {
-                        presenter.showToast(result.getData().getStringExtra("toast_msg"));
-                    }
-                });
-
-        router.setLauncher(launcher);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.e("has salido","has salido");
-        presenter.showToast("Has salido de la activity");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        presenter.detachView();
-    }
-    private void initSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
-            presenter.loadProductList();
-        });
-    }
-
-    private void initUi() {
-        presenter.loadProductList();
-    }
-
-    private void attachPresenter() {
-        presenter.attachView(this);
-    }
-
-    private void initAdapter() {
-        adapter = new ProductAdapter(callback,imageLoader,presenter::onProductClicked);
-    }
-
-    private void initRecyclerView() {
-        binding.rvProducts.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvProducts.setAdapter(adapter);
-    }
-
-    @Override
-    public void showProducts(List<ListItem> listItem) {
-        adapter.submitList(listItem);
-    }
-
-    @Override
-    public void setRefreshing(boolean isRefreshing) {
-        binding.swipeRefreshLayout.setRefreshing(isRefreshing);
-    }
-
-    @Override
-    public void cleanProducts() {
-        adapter.submitList(Collections.emptyList());
-    }
-
-    @Override
-    public void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container_view, MainFragment.class, null)
+                    .commit();
+        }
     }
 }

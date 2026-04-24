@@ -38,7 +38,7 @@ public class MainPresenter {
     public void loadProductList() {
         mainView.setRefreshing(true);
         mainView.cleanProducts();
-        getProductListUseCase.execute(0,30,products -> {
+        getProductListUseCase.execute(0,150,products -> {
             mainView.setRefreshing(false);
             mainView.showProducts(mapToItemList(products));
         });
