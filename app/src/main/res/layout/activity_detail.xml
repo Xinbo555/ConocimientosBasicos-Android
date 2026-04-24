@@ -24,19 +24,20 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/product_card_overlay_height"
-        app:layout_constraintBottom_toBottomOf="@id/iv_product"
+        android:background="@color/overlay_tint"
         android:padding="5dp"
-        android:background="@color/overlay_tint">
+        app:layout_constraintBottom_toBottomOf="@id/iv_product">
 
         <TextView
             android:id="@+id/tv_product"
+            style="@style/ProductTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/ProductTitle"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -73,6 +74,20 @@
                 android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="20dp"
+
+        android:backgroundTint="@color/white"
+        app:rippleColor="@color/overlay_tint"
+        android:src="@drawable/outline_add_24"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
