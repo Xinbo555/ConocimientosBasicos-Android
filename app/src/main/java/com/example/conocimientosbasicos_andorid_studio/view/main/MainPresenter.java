@@ -4,6 +4,10 @@ import android.os.Handler;
 
 import com.example.conocimientosbasicos_andorid_studio.domain.entity.Product;
 import com.example.conocimientosbasicos_andorid_studio.domain.usecase.GetProductListUseCase;
+import com.example.conocimientosbasicos_andorid_studio.view.main.adapter.ListItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,8 +40,28 @@ public class MainPresenter {
         mainView.cleanProducts();
         getProductListUseCase.execute(0,30,products -> {
             mainView.setRefreshing(false);
-            mainView.showProducts(products);
+            mainView.showProducts(mapToItemList(products));
         });
+    }
+
+    private List<ListItem> mapToItemList(List<Product> products) {
+        List<ListItem> listItems = new ArrayList<>();
+
+        if(products != null && !products.isEmpty()) {
+            listItems.add(new ListItem.Header("Productos Destacados"));
+
+            int half = products.size()/2;
+            for (int i = 0; i < half; i++) {
+                listItems.add(new ListItem.ProductListItem(products.get(i)));
+            }
+
+            listItems.add(new ListItem.Header("Resto del Catálogo"));
+
+            for (int i = half; i < products.size(); i++) {
+                listItems.add(new ListItem.ProductListItem(products.get(i)));
+            }
+        }
+        return listItems;
     }
 
     public void onProductClicked(Product product) {

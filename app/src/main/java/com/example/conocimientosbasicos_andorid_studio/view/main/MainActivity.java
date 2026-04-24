@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.conocimientosbasicos_andorid_studio.databinding.ActivityMainBinding;
-import com.example.conocimientosbasicos_andorid_studio.domain.entity.Product;
+import com.example.conocimientosbasicos_andorid_studio.view.main.adapter.ListItem;
 import com.example.conocimientosbasicos_andorid_studio.view.main.adapter.ProductAdapter;
 import com.example.conocimientosbasicos_andorid_studio.view.main.adapter.ProductDiffCallback;
 import com.example.conocimientosbasicos_andorid_studio.view.image.ImageLoader;
@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements MainView{
     }
 
     @Override
-    public void showProducts(List<Product> products) {
-        adapter.submitList(products);
+    public void showProducts(List<ListItem> listItem) {
+        adapter.submitList(listItem);
     }
 
     @Override
