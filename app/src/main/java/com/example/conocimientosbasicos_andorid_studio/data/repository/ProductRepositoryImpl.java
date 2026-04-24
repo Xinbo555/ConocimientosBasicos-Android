@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.example.conocimientosbasicos_andorid_studio.data.local.dao.ProductDao;
 import com.example.conocimientosbasicos_andorid_studio.data.local.entity.ProductEntity;
+import com.example.conocimientosbasicos_andorid_studio.data.local.security.SecurePreferences;
 import com.example.conocimientosbasicos_andorid_studio.data.remote.api.ProductApiService;
 import com.example.conocimientosbasicos_andorid_studio.data.remote.dto.ProductDTO;
 import com.example.conocimientosbasicos_andorid_studio.data.remote.dto.ProductResponse;
@@ -30,11 +31,13 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     private final ProductApiService productApiService;
     private final ProductDao productDao;
+    private final SecurePreferences securePreferences;
 
     @Inject
-    public ProductRepositoryImpl(ProductApiService productApiService, ProductDao productDao) {
+    public ProductRepositoryImpl(ProductApiService productApiService, ProductDao productDao, SecurePreferences securePreferences) {
         this.productApiService = productApiService;
         this.productDao = productDao;
+        this.securePreferences = securePreferences;
     }
 
     @Override
