@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface ProductRepository {
-    void getProductList(int skip, int limit, Consumer<List<Product>> onProductsLoaded);
-    void getProductById(Long id, Consumer<Product> onProductLoaded);
+    List<Product> getProductList(int skip, int limit);
+    Product getProductById(Long id);
 }

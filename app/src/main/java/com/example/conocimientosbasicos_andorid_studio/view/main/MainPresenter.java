@@ -17,20 +17,21 @@ import dagger.hilt.android.scopes.ActivityScoped;
 public class MainPresenter {
     private MainView mainView;
     private final GetProductListUseCase getProductListUseCase;
-
     private final MainRouter router;
 
-    @Inject
-    Handler mainHandler;
+    private final Handler mainHandler;
 
     @Inject
-    public MainPresenter(GetProductListUseCase getProductListUseCase, MainRouter router) {
+    public MainPresenter(GetProductListUseCase getProductListUseCase, MainRouter router, Handler mainHandler) {
         this.getProductListUseCase = getProductListUseCase;
         this.router = router;
+        this.mainHandler = mainHandler;
     }
+
     public void attachView(MainView mainView) {
         this.mainView = mainView;
     }
+
     public void detachView() {
         this.mainView = null;
     }
@@ -38,19 +39,21 @@ public class MainPresenter {
     public void loadProductList() {
         mainView.setRefreshing(true);
         mainView.cleanProducts();
-        getProductListUseCase.execute(0,150,products -> {
-            mainView.setRefreshing(false);
-            mainView.showProducts(mapToItemList(products));
+        getProductListUseCase.execute(0, 150, products -> {
+            mainHandler.post(() -> {
+                mainView.setRefreshing(false);
+                mainView.showProducts(mapToItemList(products));
+            });
         });
     }
 
     private List<ListItem> mapToItemList(List<Product> products) {
         List<ListItem> listItems = new ArrayList<>();
 
-        if(products != null && !products.isEmpty()) {
+        if (products != null && !products.isEmpty()) {
             listItems.add(new ListItem.Header("Productos Destacados"));
 
-            int half = products.size()/2;
+            int half = products.size() / 2;
             for (int i = 0; i < half; i++) {
                 listItems.add(new ListItem.ProductListItem(products.get(i)));
             }
